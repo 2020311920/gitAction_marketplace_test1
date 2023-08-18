@@ -1,16 +1,37 @@
-# action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: "KakaoTalk CI Action"
+author: "Seok Won <ikr@kakao.com>"
+
+description: "A Github action for KakaoTalk CI"
+
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  kakao_access_token:
+    description: "The KakaoTalk API access token"
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  function_name:
+    description: "The function to execute (send_to_groups_custom or send_to_me_custom)"
+    required: true
+  template_id:
+    description: "The template ID for the message"
+    required: false
+  template_args:
+    description: "The template arguments for the message"
+    required: false
+  receiver_uuids:
+    description: "The receiver UUIDs for the message (only required for send_to_groups_custom)"
+    required: false
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/entrypoint.sh
+      shell: bash
+      env:
+        INPUT_KAKAO_ACCESS_TOKEN: ${{ inputs.kakao_access_token }}
+        INPUT_FUNCTION_NAME: ${{ inputs.function_name }}
+        INPUT_TEMPLATE_ID: ${{ inputs.template_id }}
+        INPUT_TEMPLATE_ARGS: ${{ inputs.template_args }}
+        INPUT_RECEIVER_UUIDS: ${{ inputs.receiver_uuids }}
+
+branding:
+  icon: 'message-circle'
+  color: 'yellow'
