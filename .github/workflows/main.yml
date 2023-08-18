@@ -3,7 +3,8 @@ name: Example CI
 on:
   push:
     branches:
-      - main
+      #- main
+      - '*'
 
 jobs:
   build-and-notify:
