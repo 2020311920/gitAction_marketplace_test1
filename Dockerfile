@@ -5,7 +5,7 @@ FROM python:3.8
 WORKDIR /app
 
 # Copy your Python code to the container
-COPY your_python_script.py .
+COPY test.py .
 
 # Define the command to run your Python script
-CMD ["python", "your_python_script.py"]
+CMD ["python", "test.py"]
